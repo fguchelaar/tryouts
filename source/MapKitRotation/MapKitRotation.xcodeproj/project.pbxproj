@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		019D27AF2C79F6BF00F9EFEE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019D27AE2C79F6BF00F9EFEE /* MapKit.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		019D27752C79F48B00F9EFEE /* MapKitRotation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapKitRotation.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		019D27AE2C79F6BF00F9EFEE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				019D27AF2C79F6BF00F9EFEE /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				019D27772C79F48B00F9EFEE /* MapKitRotation */,
+				019D27AD2C79F6BF00F9EFEE /* Frameworks */,
 				019D27762C79F48B00F9EFEE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +63,14 @@
 				019D27752C79F48B00F9EFEE /* MapKitRotation.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		019D27AD2C79F6BF00F9EFEE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				019D27AE2C79F6BF00F9EFEE /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
