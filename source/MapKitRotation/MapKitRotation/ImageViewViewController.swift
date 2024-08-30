@@ -8,7 +8,7 @@
 import MapKit
 import UIKit
 
-class V1ViewController: UIViewController, MKMapViewDelegate {
+class ImageViewViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var mapView: MKMapView!
     var polyline: MKPolyline!
     let carImageView = UIImageView(image: UIImage(named: "car"))
