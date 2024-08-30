@@ -2,75 +2,37 @@
 //  ViewController.swift
 //  MapKitRotation
 //
-//  Created by Frank Guchelaar on 30/08/2024.
+//  Created by Frank Guchelaar on 24/08/2024.
 //
 
 import MapKit
 import UIKit
 
-class CustomAnnotation: NSObject, MKAnnotation {
-    dynamic var coordinate: CLLocationCoordinate2D
-    var title: String?
-     
-    init(coordinate: CLLocationCoordinate2D, title: String? = nil) {
-        self.coordinate = coordinate
-        self.title = title
-    }
-}
-
-class ViewController: UIViewController, MKMapViewDelegate {
+class V1ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var mapView: MKMapView!
     var polyline: MKPolyline!
-    var carAnnotation: CustomAnnotation!
+    let carImageView = UIImageView(image: UIImage(named: "car"))
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        centerOnCoordinate(calculateCenterCoordinate(coordinates: Coordinates.indianapolisSpeedway) ?? Coordinates.indianapolisSpeedway.first!)
-        
+        centerOnCoordinate(Coordinates.indianapolisSpeedway.first!)
+
         polyline = MKPolyline(coordinates: Coordinates.indianapolisSpeedway, count: Coordinates.indianapolisSpeedway.count)
         mapView.addOverlay(polyline)
-        
-        carAnnotation = CustomAnnotation(coordinate: Coordinates.indianapolisSpeedway.first!, title: "Car")
-        mapView.addAnnotation(carAnnotation)
-        
+
+        mapView.addSubview(carImageView)
+
         animateCar()
-        
-        for entry in Coordinates.indianapolisSpeedway.enumerated() {
-            if entry.offset.isMultiple(of: 2) {
-                let coordinate = entry.element
-                print("CLLocationCoordinate2D(latitude: \(coordinate.latitude), longitude: \(coordinate.longitude)),")
-            }
-        }
-    }
-    
-    func calculateCenterCoordinate(coordinates: [CLLocationCoordinate2D]) -> CLLocationCoordinate2D? {
-        guard !coordinates.isEmpty else {
-            return nil // Return nil if the array is empty
-        }
-
-        var latitudeSum: CLLocationDegrees = 0.0
-        var longitudeSum: CLLocationDegrees = 0.0
-
-        for coordinate in coordinates {
-            latitudeSum += coordinate.latitude
-            longitudeSum += coordinate.longitude
-        }
-
-        let centerLatitude = latitudeSum / Double(coordinates.count)
-        let centerLongitude = longitudeSum / Double(coordinates.count)
-
-        return CLLocationCoordinate2D(latitude: centerLatitude, longitude: centerLongitude)
     }
 
-    
     @IBAction func animateBtnTouched(_ sender: Any) {
         animateCar()
     }
-    
+
     func centerOnCoordinate(_ coordinate: CLLocationCoordinate2D) {
         mapView.setRegion(MKCoordinateRegion(center: coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000), animated: true)
     }
-    
+
     func animateCar() {
         let duration: TimeInterval = 10.0 // Total duration of the animation
         let stepDuration = duration / Double(Coordinates.indianapolisSpeedway.count - 1)
@@ -89,13 +51,13 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 let angle = atan2(yOffset, xOffset) + (.pi / 2)
 
                 UIView.animate(withDuration: stepDuration, delay: 0, options: .curveLinear, animations: {
-                    self.carAnnotation.coordinate = endPoint
-                        
+                    self.carImageView.center = self.mapView.convert(endPoint, toPointTo: self.mapView)
+                    self.carImageView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
                 }, completion: nil)
             }
         }
     }
-    
+
     // Delegate functions
     func mapView(_ mapView: MKMapView, rendererFor overlay: any MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
